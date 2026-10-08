@@ -90,7 +90,7 @@ h1, h2, p, figure { margin: 0; }
 .timeline-filters button { padding: 9px 12px; border: 0; border-radius: 2px; background: transparent; cursor: pointer; color: var(--muted); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; }
 .timeline-filters button:hover, .timeline-filters button:focus-visible { color: var(--text); }
 .timeline-filters button[aria-pressed="true"] { color: var(--background); background: var(--text); }
-main { width: min(var(--content-width), calc(100% - var(--page-gutter) * 2 - 160px)); margin: 0 auto; padding: 165px 0 72px; }
+main { width: min(var(--content-width), calc(100% - var(--page-gutter) * 2 - 200px)); margin: 0 auto; padding: 165px 0 72px; }
 main.has-scroll-fade {
   -webkit-mask-image: linear-gradient(to bottom, transparent calc(var(--content-scroll, 0px) + var(--header-height) * .45), #000 calc(var(--content-scroll, 0px) + var(--header-height) + 32px));
   mask-image: linear-gradient(to bottom, transparent calc(var(--content-scroll, 0px) + var(--header-height) * .45), #000 calc(var(--content-scroll, 0px) + var(--header-height) + 32px));
@@ -191,19 +191,21 @@ blockquote { margin: 22px 0; padding: 0 0 0 18px; border-left: 1px solid var(--s
 }
 @media (max-width: 1000px) {
   :root { --rail-x: 66px; --card-start: 90px; }
+  main { width: min(var(--content-width), calc(100% - var(--page-gutter) - 115px)); margin-left: var(--page-gutter); }
   .entry-date { width: 48px; }
+  .minimap { right: 18px; width: 76px; }
+  .mini-entry { max-width: 23px; }
 }
-@media (max-width: 1100px), (hover: none) and (pointer: coarse) {
-  main { width: min(var(--content-width), calc(100% - var(--page-gutter) * 2)); }
-  .minimap { display: none; }
-}
+:root.phone-layout main { width: min(var(--content-width), calc(100% - var(--page-gutter) * 2)); margin-inline: auto; }
+:root.phone-layout .minimap { display: none; }
 @media (max-width: 650px) {
   :root { --header-height: 112px; --rail-x: 8px; --card-start: 27px; }
   .site-header { grid-template-columns: 1fr auto; grid-template-rows: auto auto; align-content: center; gap: 7px 12px; padding-top: 8px; padding-bottom: 8px; }
   .site-name { grid-column: 1; grid-row: 1; font-size: 18px; letter-spacing: 0; }
   .timeline-filters { grid-column: 1 / -1; grid-row: 2; justify-self: center; gap: 12px; }
   .timeline-filters button { font-size: 9px; padding: 7px 9px; letter-spacing: .08em; }
-  main { padding-top: 152px; }
+  main { width: calc(100% - var(--page-gutter) * 2); margin-inline: auto; padding-top: 152px; }
+  .minimap { display: none; }
   .contact { grid-column: 2; grid-row: 1; gap: 7px; }
   .contact a { width: 32px; height: 32px; }
   .entry-date { position: static; display: flex; gap: 8px; width: auto; text-align: left; margin-bottom: 9px; line-height: 1.4; font-size: 8px; }

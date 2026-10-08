@@ -1,5 +1,6 @@
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-const narrowViewport = window.matchMedia("(max-width: 1100px), (hover: none) and (pointer: coarse)");
+const compactViewport = window.matchMedia("(max-width: 650px)");
+const coarseInput = window.matchMedia("(any-pointer: coarse)");
 const header = document.querySelector(".site-header");
 const mainContent = document.querySelector("#content");
 mainContent.classList.add("has-scroll-fade");
@@ -21,6 +22,7 @@ const entries = Array.from(timeline.querySelectorAll(".timeline-entry"), (elemen
 
 const DAY = 86_400_000;
 const COMPRESSED_GAP_DAYS = 270;
+const CARD_DURATION = 300;
 const dateFormat = new Intl.DateTimeFormat("en-GB", { month: "long", year: "numeric", timeZone: "UTC" });
 let visibleEntries = entries;
 let gaps = [];
@@ -30,16 +32,67 @@ let layoutFrame;
 let scrollFrame;
 let clearAllFiltersTimer;
 let expandedEntry;
-let accordionScrollFrame;
+let accordionFrame;
+let accordionAnchor;
+let viewportWidth = innerWidth;
 const filterAnimations = new Set();
-const cardAnimations = new Set();
+const cardAnimations = new Map();
+
+function updateDeviceLayout() {
+  const touch = navigator.maxTouchPoints > 0 || coarseInput.matches;
+  const phone = touch && Math.min(screen.width, screen.height) <= 650;
+  document.documentElement.classList.toggle("phone-layout", phone);
+}
+
+function hidesMinimap() {
+  return compactViewport.matches || document.documentElement.classList.contains("phone-layout");
+}
+
+updateDeviceLayout();
 
 function stopAccordionScroll() {
-  cancelAnimationFrame(accordionScrollFrame);
+  accordionAnchor = undefined;
 }
 
 function releaseAccordionSpace() {
   if (cardAnimations.size === 0) mainContent.style.removeProperty("min-height");
+}
+
+function finishAccordion() {
+  cancelAnimationFrame(accordionFrame);
+  stopAccordionScroll();
+  for (const finish of [...cardAnimations.values()]) finish();
+  releaseAccordionSpace();
+}
+
+function animateAccordion(anchor) {
+  cancelAnimationFrame(accordionFrame);
+  accordionAnchor = anchor;
+  const start = performance.now();
+  const initialTimes = new Map([...cardAnimations.keys()].map((animation) => [animation, Number(animation.currentTime) || 0]));
+  const frame = (now) => {
+    let pending = false;
+    for (const [animation, initialTime] of initialTimes) {
+      const finish = cardAnimations.get(animation);
+      if (!finish) continue;
+      const time = Math.min(CARD_DURATION, initialTime + Math.max(0, now - start));
+      animation.currentTime = time;
+      if (time === CARD_DURATION) finish();
+      else pending = true;
+    }
+    releaseAccordionSpace();
+    if (accordionAnchor) {
+      const delta = accordionAnchor.element.getBoundingClientRect().top - accordionAnchor.top;
+      if (Math.abs(delta) > .5) window.scrollBy({ top: delta, behavior: "instant" });
+    }
+    if (pending) {
+      accordionFrame = requestAnimationFrame(frame);
+    } else {
+      accordionFrame = undefined;
+      accordionAnchor = undefined;
+    }
+  };
+  frame(start);
 }
 
 function clamp(value, min, max) {
@@ -187,7 +240,7 @@ function renderMap() {
 }
 
 function measureMap() {
-  if (minimap.hidden || narrowViewport.matches) return;
+  if (minimap.hidden || hidesMinimap()) return;
   const bounds = timeline.getBoundingClientRect();
   const lastEntry = visibleEntries.at(-1).element;
   const height = Math.max(1, lastEntry.offsetTop + lastEntry.offsetHeight);
@@ -226,7 +279,7 @@ function scheduleMapLayout() {
 
 function updateMapPosition() {
   mainContent.style.setProperty("--content-scroll", `${Math.max(0, -mainContent.getBoundingClientRect().top)}px`);
-  if (!geometry || minimap.hidden || narrowViewport.matches) return;
+  if (!geometry || minimap.hidden || hidesMinimap()) return;
   const { top, height, mapHeight, minimumScroll, maximumScroll } = geometry;
   const visibleTop = clamp((scrollY + header.offsetHeight - top) / height, 0, 1);
   const visibleBottom = clamp((scrollY + innerHeight - top) / height, 0, 1);
@@ -317,7 +370,7 @@ entries.forEach((entry) => {
   content.inert = !expanded;
   summary.setAttribute("aria-expanded", String(expanded));
 
-  entry.setExpanded = (value, animate = true) => {
+  entry.setExpanded = (value) => {
     if (expanded === value) return;
     expanded = value;
     if (!expanded) content.querySelectorAll("video").forEach((video) => video.pause());
@@ -333,24 +386,27 @@ entries.forEach((entry) => {
     summary.setAttribute("aria-expanded", String(expanded));
     const border = parseFloat(getComputedStyle(card).borderTopWidth) * 2;
     const endHeight = expanded ? card.getBoundingClientRect().height : summary.getBoundingClientRect().height + border;
-    if (!animate || reducedMotion.matches || element.hidden || element.inert) {
+    if (reducedMotion.matches || element.hidden || element.inert) {
       card.open = expanded;
       scheduleMapLayout();
       return;
     }
     animation = card.animate([{ height: `${startHeight}px` }, { height: `${endHeight}px` }], {
-      duration: 300,
+      duration: CARD_DURATION,
       easing: "cubic-bezier(.22, 1, .36, 1)",
+      fill: "both",
     });
+    // Advance both card heights and the anchored scroll offset in the same frame.
+    animation.pause();
+    animation.currentTime = 0;
     const currentAnimation = animation;
-    cardAnimations.add(currentAnimation);
-    currentAnimation.onfinish = () => {
+    cardAnimations.set(currentAnimation, () => {
       card.open = expanded;
       cardAnimations.delete(currentAnimation);
       if (animation === currentAnimation) animation = undefined;
-      releaseAccordionSpace();
+      currentAnimation.cancel();
       scheduleMapLayout();
-    };
+    });
   };
 
   summary.addEventListener("click", (event) => {
@@ -358,34 +414,19 @@ entries.forEach((entry) => {
     event.preventDefault();
     stopAccordionScroll();
     stopMinimapScrub();
+    cancelAnimationFrame(accordionFrame);
     const opening = !expanded;
     const previous = expandedEntry;
     const anchorTop = summary.getBoundingClientRect().top;
-    const keepMobilePosition = narrowViewport.matches && opening;
-    const keepPosition = !narrowViewport.matches && opening && previous && !previous.element.inert
-      && previous.element.getBoundingClientRect().top < element.getBoundingClientRect().top && scrollY > 0;
-    if (keepMobilePosition) {
+    if (opening) {
       // Reserve the scroll range while swapping cards so Safari cannot clamp it mid-layout.
       mainContent.style.minHeight = `${mainContent.getBoundingClientRect().height}px`;
       if (filterAnimations.size) applyFilters(false);
     }
-    if (opening && previous && previous !== entry) previous.setExpanded(false, !keepMobilePosition);
+    if (opening && previous && previous !== entry) previous.setExpanded(false);
     entry.setExpanded(opening);
     expandedEntry = opening ? entry : undefined;
-
-    if (keepMobilePosition) {
-      const delta = summary.getBoundingClientRect().top - anchorTop;
-      if (Math.abs(delta) > .5) window.scrollBy({ top: delta, behavior: "instant" });
-    }
-    releaseAccordionSpace();
-    if (keepPosition) {
-      const anchor = () => {
-        const delta = summary.getBoundingClientRect().top - anchorTop;
-        if (Math.abs(delta) > .5) window.scrollBy({ top: delta, behavior: "instant" });
-        if (animation?.playState === "running") accordionScrollFrame = requestAnimationFrame(anchor);
-      };
-      anchor();
-    }
+    animateAccordion(opening ? { element: summary, top: anchorTop } : undefined);
   });
 });
 
@@ -494,18 +535,33 @@ window.addEventListener("scroll", () => {
   cancelAnimationFrame(scrollFrame);
   scrollFrame = requestAnimationFrame(updateMapPosition);
 }, { passive: true });
-window.addEventListener("resize", scheduleMapLayout);
+window.addEventListener("resize", () => {
+  if (innerWidth !== viewportWidth) {
+    finishAccordion();
+    stopMinimapScrub();
+    viewportWidth = innerWidth;
+  }
+  updateDeviceLayout();
+  if (hidesMinimap()) stopMinimapScrub();
+  scheduleMapLayout();
+});
 window.addEventListener("blur", stopMinimapScrub);
 window.addEventListener("wheel", stopAccordionScroll, { passive: true });
 window.addEventListener("touchstart", stopAccordionScroll, { passive: true });
 window.addEventListener("keydown", stopAccordionScroll);
 new ResizeObserver(scheduleMapLayout).observe(timeline);
-narrowViewport.addEventListener("change", () => {
+compactViewport.addEventListener("change", () => {
   stopMinimapScrub();
+  scheduleMapLayout();
+});
+coarseInput.addEventListener("change", () => {
+  updateDeviceLayout();
+  if (hidesMinimap()) stopMinimapScrub();
   scheduleMapLayout();
 });
 reducedMotion.addEventListener("change", () => {
   if (reducedMotion.matches) {
+    finishAccordion();
     applyFilters(false);
   }
 });
