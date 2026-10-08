@@ -1,87 +1,337 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-
-    <title>Dominic Ayre</title>
-
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-
-    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#171717" media="(prefers-color-scheme: dark)">
+    <meta name="description" content="Dominic Ayre's projects and milestones in software engineering, interface design, and graphic design.">
+    <title>Dominic Ayre</title>
     <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
-    <link rel="manifest" href="favicons/manifest.json">
-    <link rel="mask-icon" href="favicons/safari-pinned-tab.svg" color="#f44336">
-    <meta name="theme-color" content="#f44336">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.grey-cyan.min.css" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-    <link href="main.css" rel="stylesheet">
-
-    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-    <script src="https://www.w3schools.com/lib/w3.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-
+    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
+    <link rel="stylesheet" href="site.css">
+    <script src="site.js" defer></script>
   </head>
+  <body id="top">
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="site-header">
+      <a class="site-name" href="#top">Dominic Ayre</a>
+      <nav class="timeline-filters" aria-label="Filter timeline" aria-describedby="filter-help" hidden>
+        <button type="button" data-filter="project" aria-pressed="false" aria-controls="timeline-list">Projects</button>
+        <button type="button" data-filter="milestone" aria-pressed="false" aria-controls="timeline-list">Milestones</button>
+        <button type="button" data-filter="thought" aria-pressed="false" aria-controls="timeline-list">Thoughts</button>
+      </nav>
+      <nav class="contact" aria-label="Contact and GitHub">
+        <a href="mailto:domayre@outlook.com" aria-label="Email Dominic Ayre" title="domayre@outlook.com">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1.5"></rect><path d="m3 6 9 7 9-7"></path></svg>
+        </a>
+        <a href="https://github.com/DomAyre" target="_blank" rel="noopener noreferrer" aria-label="Dominic Ayre on GitHub" title="GitHub">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21v-3.2c-4.2 1.2-4.2-2.1-6-2.6m12 5.8v-3.6c0-1-.3-1.7-.9-2.2 3-.3 6.1-1.4 6.1-6.6 0-1.4-.5-2.6-1.4-3.5.2-.6.6-2.1-.2-3.6 0 0-1.1-.3-3.7 1.4a12.8 12.8 0 0 0-6.8 0C5.5 1.2 4.4 1.5 4.4 1.5c-.8 1.5-.4 3-.2 3.6a5 5 0 0 0-1.4 3.5c0 5.2 3.1 6.3 6.1 6.6-.6.5-.9 1.2-.9 2.2V21"></path></svg>
+        </a>
+      </nav>
+      <p class="visually-hidden" id="filter-help">Select one or more types. Select a highlighted type again to deselect it. No selection shows all entries.</p>
+    </header>
 
-  <body>
+    <main id="content">
+      <section class="timeline" aria-labelledby="timeline-title">
+        <h1 class="visually-hidden" id="timeline-title">Timeline</h1>
+        <p class="visually-hidden" id="timeline-count" aria-live="polite" aria-atomic="true">16 entries</p>
+        <ol class="timeline-list" id="timeline-list">
+          <li class="timeline-entry" data-type="milestone" id="microsoft">
+            <time class="entry-date" datetime="2022-07"><span>2022</span>Jul</time>
+            <span class="entry-node" aria-hidden="true"></span>
+            <details class="entry-card" name="timeline">
+              <summary><span class="entry-type">Milestone</span><h2>Joined Microsoft</h2><p class="entry-excerpt">Confidential computing, Azure, and the Confidential Consortium Framework.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
+              <div class="entry-content prose">
+                <p>I joined Microsoft as a Software Engineer in July 2022. I worked on the Confidential Consortium Framework (CCF), helping to add support for AMD SNP and creating CI testing workflows in GitHub and Azure DevOps.</p>
+                <p>I later moved into Azure Core to work on Confidential Azure Container Instances, including adding Azure support to Google's Privacy Sandbox.</p>
+                <p><a href="pages/About%20me/dom_ayre.pdf" target="_blank" rel="noopener">View the original CV (PDF)</a></p>
+              </div>
+            </details>
+          </li>
 
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+          <li class="timeline-entry" data-type="project" id="flutter-clock">
+            <time class="entry-date" datetime="2020-12"><span>2020</span>Dec</time>
+            <span class="entry-node" aria-hidden="true"></span>
+            <details class="entry-card" name="timeline">
+              <summary><span class="entry-type">Project</span><h2>Half N' Half Clock</h2><p class="entry-excerpt">My entry into the Flutter Clock competition.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
+              <div class="entry-content prose">
+                <p>Half N' Half Clock was my entry into the <a href="https://flutter.dev/clock" target="_blank" rel="noopener noreferrer">Flutter Clock Competition</a>. After a few small projects and experiments using Flutter, this was my first fully complete project.</p>
+                <p>I learned a lot about the framework, and it was a fun challenge over the Christmas break.</p>
+                <video class="project-video" src="pages/Flutter%20Clock/half_n_half_clock_demo.mp4" width="1920" height="1080" controls playsinline preload="none" aria-label="Half N' Half Clock demonstration"></video>
+                <p><a href="https://github.com/DomAyre/half_n_half_clock" target="_blank" rel="noopener noreferrer">View the code on GitHub</a></p>
+              </div>
+            </details>
+          </li>
 
-        <header class="mdl-layout__header mdl-layout__header--transparent">
-            <div class="mdl-layout__header-row">
-                <span id="page-title" class="mdl-layout-title">About me</span>
-                <div class="mdl-layout-spacer"></div>
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right">
-                    <label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
-                        <i class="material-icons">search</i>
-                    </label>
-                    <div class="mdl-textfield__expandable-holder">
-                        <input class="mdl-textfield__input" type="text" name="sample" id="fixed-header-drawer-exp">
-                    </div>
+          <li class="timeline-entry" data-type="milestone" id="arm">
+            <time class="entry-date" datetime="2017-09"><span>2017</span>Sep</time>
+            <span class="entry-node" aria-hidden="true"></span>
+            <details class="entry-card" name="timeline">
+              <summary><span class="entry-type">Milestone</span><h2>Joined Arm's GPU software team</h2><p class="entry-excerpt">Mali instrumentation, data modelling, and visualisation.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
+              <div class="entry-content prose">
+                <p>I joined Arm as a graduate in September 2017 and worked there until July 2022, with promotions in April 2018 and April 2020.</p>
+                <p>I worked on instrumenting the Mali GPU driver and owned our visualisation tool, written with D3 and Node.js. That included requirements gathering, design work, and a major design overhaul.</p>
+                <p>I also helped architect our Python data modelling library and acted as the team's Scrum Master, driving process improvements.</p>
+              </div>
+            </details>
+          </li>
+
+          <li class="timeline-entry" data-type="project" id="southwest-league">
+            <time class="entry-date" datetime="2017-09"><span>2017</span>Sep</time>
+            <span class="entry-node" aria-hidden="true"></span>
+            <details class="entry-card" name="timeline">
+              <summary><span class="entry-type">Project</span><h2>South-West League</h2><p class="entry-excerpt">A visual identity for regular regional quidditch competition.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
+              <div class="entry-content prose">
+                <p>Following my work with Bristol Quidditch Club, I became the principal designer for the South-West Quidditch League. The league was created to give teams in the region regular, meaningful games outside national tournament weekends.</p>
+                <p>We wanted a strong brand that brought a new sense of professionalism to the sport. The logo kept a connection to Bristol through its colour scheme while representing the wider region and quidditch itself.</p>
+                <div class="carousel" role="region" aria-roledescription="carousel" aria-label="South-West League branding">
+                  <div class="carousel-track" id="southwest-images" tabindex="0" aria-label="South-West League images">
+                    <figure class="carousel-slide"><img src="pages/Southwest%20League/Cover%20Photo.png" alt="South-West League cover artwork." loading="lazy" decoding="async"></figure>
+                    <figure class="carousel-slide"><img src="pages/Southwest%20League/Logo.png" alt="The circular South-West League logo." loading="lazy" decoding="async"></figure>
+                    <figure class="carousel-slide"><img src="pages/Southwest%20League/league-table.png" alt="A South-West League table graphic." loading="lazy" decoding="async"></figure>
+                    <figure class="carousel-slide"><img src="pages/Southwest%20League/division-1.png" alt="South-West League Division 1 artwork." loading="lazy" decoding="async"></figure>
+                  </div>
+                  <div class="carousel-caption"><p>Branding, league tables, and division graphics.</p></div>
                 </div>
-            </div>
-        </header>
+                <p>The graphics evolved over the league's first two seasons. We began with a sharp, angular look that complemented Bristol's branding, then embraced the circular logo and a more rounded style as the league developed its own identity.</p>
+              </div>
+            </details>
+          </li>
 
-        <div id="nav-drawer" class="mdl-layout__drawer">
-            <img src="media/profile.jpg" class="mdl-shadow--4dp">
-            <span id="about-me" class="mdl-layout-title project-link">Dominic Ayre</span>
-            <nav id="drawer" class="mdl-navigation">
-                <a class="mdl-navigation__link project-type"><b>COMPUTER SCIENCE</b>    </a>
-                <div id="COMPUTER SCIENCE PROJECTS" class="collapsable">
-                    <div id="COMPUTER SCIENCE WRAPPER">
-                        <a id="study-planner" class="mdl-navigation__link project-link grey">Study Planner</a>
-                        <a id="mynd" class="mdl-navigation__link project-link green">Mynd</a>
-                        <a id="flutter-clock" class="mdl-navigation__link project-link orange">Flutter Clock</a>
-                        <a id="vrstudio" class="mdl-navigation__link project-link teal">VRStudio</a>
-                        <a id="stressless" class="mdl-navigation__link project-link light-blue">StressLess</a>
-                        <a id="rollout" class="mdl-navigation__link project-link blue">Rollout</a>
-                        <a id="bad-squash" class="mdl-navigation__link project-link red">BaD Squash</a>
-                    </div>
+          <li class="timeline-entry" data-type="milestone" id="graduation">
+            <time class="entry-date" datetime="2017-07"><span>2017</span>Jul</time>
+            <span class="entry-node" aria-hidden="true"></span>
+            <details class="entry-card" name="timeline">
+              <summary><span class="entry-type">Milestone</span><h2>Graduated from the University of Bristol</h2><p class="entry-excerpt">MEng Computer Science.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
+              <div class="entry-content prose">
+                <p>I graduated with a Master's degree in Computer Science from the University of Bristol. My final project, VRStudio, explored new interfaces for virtual and augmented reality through a video-editing case study.</p>
+              </div>
+            </details>
+          </li>
+
+          <li class="timeline-entry" data-type="project" id="vrstudio">
+            <time class="entry-date" datetime="2017-05"><span>2017</span>May</time>
+            <span class="entry-node" aria-hidden="true"></span>
+            <details class="entry-card" name="timeline">
+              <summary><span class="entry-type">Project</span><h2>VRStudio</h2><p class="entry-excerpt">Exploring video editing in virtual and augmented reality.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
+              <div class="entry-content prose">
+                <p>VRStudio was the result of my final Master's project. I researched new interfaces for virtual and augmented reality through a case study of a video-editing program.</p>
+                <p>The results were encouraging: in some respects, the prototype proved more intuitive than a traditional 2D editing suite.</p>
+                <video class="project-video" src="pages/VRStudio/vrstudio.mp4" width="1280" height="720" controls playsinline preload="none" aria-label="VRStudio demonstration"></video>
+                <figure class="article-image"><img src="pages/VRStudio/poster.png" width="2105" height="2980" alt="Research poster explaining the VRStudio project, interface, and evaluation." loading="lazy" decoding="async"></figure>
+                <p><a href="https://github.com/DomAyre/VRStudio" target="_blank" rel="noopener noreferrer">View VRStudio on GitHub</a></p>
+              </div>
+            </details>
+          </li>
+
+          <li class="timeline-entry" data-type="project" id="stressless">
+            <time class="entry-date" datetime="2016-11"><span>2016</span>Nov</time>
+            <span class="entry-node" aria-hidden="true"></span>
+            <details class="entry-card" name="timeline">
+              <summary><span class="entry-type">Project</span><h2>StressLess</h2><p class="entry-excerpt">A smart stress ball built with magnets, Hall effect sensors, and Arduino.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
+              <div class="entry-content prose">
+                <p>StressLess was a prototype smart stress ball I developed in a team during my Master's year, as part of an Interactive Devices unit.</p>
+                <p>We put magnets and Hall effect sensors inside a regular foam stress ball and connected them to an Arduino board. The magnets let us measure how the ball was being squeezed.</p>
+                <div class="carousel" role="region" aria-roledescription="carousel" aria-label="StressLess prototype and diagrams">
+                  <div class="carousel-track" id="stressless-images" tabindex="0" aria-label="StressLess images">
+                    <figure class="carousel-slide"><img src="pages/StressLess/stressless.jpg" alt="The StressLess smart stress ball prototype." loading="lazy" decoding="async"></figure>
+                    <figure class="carousel-slide"><img src="pages/StressLess/magnet.jpg" alt="Diagram showing the magnets and Hall effect sensors." loading="lazy" decoding="async"></figure>
+                    <figure class="carousel-slide"><img src="pages/StressLess/interaction.png" alt="The interaction between squeezing the ball and the visual response." loading="lazy" decoding="async"></figure>
+                  </div>
+                  <div class="carousel-caption"><p>The prototype, sensing arrangement, and interaction.</p></div>
                 </div>
-                <a class="mdl-navigation__link project-type"><b>DESIGN</b></a>
-                <div id="DESIGN PROJECTS" class="collapsable">
-                    <div id="DESIGN WRAPPER">
-                        <a id="bristol-quidditch-club" class="mdl-navigation__link project-link red">Bristol Quidditch Club</a>
-                        <a id="southwest-league" class="mdl-navigation__link project-link yellow">Southwest League</a>
-                        <a id="freelance-logo-design" class="mdl-navigation__link project-link orange">Freelance Logo Design</a>
-                    </div>
+                <p>The idea was to connect a familiar stress ball to smart devices, responding with soothing lighting or music. Our proof of concept mapped squeezes to a colour on screen, which faded as the squeezing slowed.</p>
+                <p><a href="https://github.com/DomAyre/stressless" target="_blank" rel="noopener noreferrer">View StressLess on GitHub</a></p>
+              </div>
+            </details>
+          </li>
+
+          <li class="timeline-entry" data-type="milestone" id="arm-vulkan">
+            <time class="entry-date" datetime="2016-07"><span>2016</span>Jul</time>
+            <span class="entry-node" aria-hidden="true"></span>
+            <details class="entry-card" name="timeline">
+              <summary><span class="entry-type">Milestone</span><h2>Vulkan timeline visualisation at Arm</h2><p class="entry-excerpt">A summer internship, July–September 2016.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
+              <div class="entry-content prose"><p>I instrumented and visualised the Vulkan timeline, gaining practical knowledge of the Vulkan API during a summer internship at Arm.</p></div>
+            </details>
+          </li>
+
+          <li class="timeline-entry" data-type="project" id="rollout">
+            <time class="entry-date" datetime="2016-06"><span>2016</span>Jun</time>
+            <span class="entry-node" aria-hidden="true"></span>
+            <details class="entry-card" name="timeline">
+              <summary><span class="entry-type">Project</span><h2>Rollout</h2><p class="entry-excerpt">A battle arena blending physical robots with projected graphics.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
+              <div class="entry-content prose">
+                <p>Rollout was my third-year group project. We were tasked with making a game that brought multiple technologies together in a compelling package.</p>
+                <p>We combined Sphero robotic balls with an overhead tracking system built from off-the-shelf webcams, and a custom mirror system that reflected a projector image onto the floor. This let us overlay graphics on the physical robots.</p>
+                <div class="carousel" role="region" aria-roledescription="carousel" aria-label="Rollout game and hardware">
+                  <div class="carousel-track" id="rollout-images" tabindex="0" aria-label="Rollout images">
+                    <figure class="carousel-slide"><img src="pages/Rollout/combo.png" alt="Rollout's physical robots and projected battle arena." loading="lazy" decoding="async"></figure>
+                    <figure class="carousel-slide"><img src="pages/Rollout/rollout.png" alt="The Rollout game setup." loading="lazy" decoding="async"></figure>
+                  </div>
+                  <div class="carousel-caption"><p>Physical robots, virtual weapons, and a projected arena.</p></div>
                 </div>
-            </nav>
+                <p>Players controlled their robots through a custom Android app and attacked each other using both virtual weapons and physical collisions.</p>
+                <p><a href="https://github.com/jamuus/rollout" target="_blank" rel="noopener noreferrer">View Rollout on GitHub</a></p>
+              </div>
+            </details>
+          </li>
 
-        </div>
+          <li class="timeline-entry" data-type="milestone" id="arm-opencl">
+            <time class="entry-date" datetime="2015-07"><span>2015</span>Jul</time>
+            <span class="entry-node" aria-hidden="true"></span>
+            <details class="entry-card" name="timeline">
+              <summary><span class="entry-type">Milestone</span><h2>Precompiled OpenCL headers at Arm</h2><p class="entry-excerpt">A summer internship, July–September 2015.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
+              <div class="entry-content prose"><p>I added support for precompiling OpenCL headers with Clang, improving loading performance and maintainability.</p></div>
+            </details>
+          </li>
 
-        <main class="mdl-layout__content">
-            <div class="page-content">
+          <li class="timeline-entry" data-type="project" id="bad-squash">
+            <time class="entry-date" datetime="2015-06"><span>2015</span>Jun</time>
+            <span class="entry-node" aria-hidden="true"></span>
+            <details class="entry-card" name="timeline">
+              <summary><span class="entry-type">Project</span><h2>BaD Squash</h2><p class="entry-excerpt">An app for Bristol and Avon District Squash.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
+              <div class="entry-content prose">
+                <p>I created BaD Squash with a team of fellow students during my second year at Bristol. It was our first experience of working with a real client: gathering requirements, managing deadlines and our own time, and delivering a finished product.</p>
+                <p>I led the team and was responsible for most of the design work.</p>
+                <figure class="article-image"><img src="pages/BaD%20Squash/bad-squash.png" width="4200" height="3000" alt="Screens from the Bristol and Avon District Squash app." loading="lazy" decoding="async"></figure>
+                <p><a href="https://github.com/benallpass/badsquash" target="_blank" rel="noopener noreferrer">View BaD Squash on GitHub</a></p>
+              </div>
+            </details>
+          </li>
 
-                <div id="project-content" w3-include-html="blank.html"></div>
+          <li class="timeline-entry" data-type="milestone" id="club-president">
+            <time class="entry-date" datetime="2015"><span>2015</span>–2017</time>
+            <span class="entry-node" aria-hidden="true"></span>
+            <details class="entry-card" name="timeline">
+              <summary><span class="entry-type">Milestone</span><h2>President of Bristol Quidditch Club</h2><p class="entry-excerpt">Two years leading a club I helped found.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
+              <div class="entry-content prose">
+                <p>After helping found Bristol Quidditch Club in 2014 and initially serving as treasurer, I was elected president for the club's second season. I held the role from 2015 to 2017.</p>
+                <p>The club grew to become the largest in the UK, with over 50 registered members and two competitive teams. Our first team reached second place nationally.</p>
+                <p>Alongside the leadership experience, I led the club's design work and later trained newer members to carry it forward.</p>
+              </div>
+            </details>
+          </li>
 
-                <script src="main.js"></script>
+          <li class="timeline-entry" data-type="milestone" id="arm-compute">
+            <time class="entry-date" datetime="2014-07"><span>2014</span>Jul</time>
+            <span class="entry-node" aria-hidden="true"></span>
+            <details class="entry-card" name="timeline">
+              <summary><span class="entry-type">Milestone</span><h2>Compute shader research at Arm</h2><p class="entry-excerpt">A summer internship, July–September 2014.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
+              <div class="entry-content prose"><p>I researched using compute shaders to render SVG paths during a summer internship at Arm.</p></div>
+            </details>
+          </li>
 
-            </div>
-        </main>
+          <li class="timeline-entry" data-type="project" id="mynd">
+            <time class="entry-date" datetime="2014"><span>2014</span></time>
+            <span class="entry-node" aria-hidden="true"></span>
+            <details class="entry-card" name="timeline">
+              <summary><span class="entry-type">Project</span><h2>Mynd</h2><p class="entry-excerpt">A mind-mapping application built around a more engaging note-taking experience.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
+              <div class="entry-content prose">
+                <p>I released Mynd in 2014 as a way to test my UX design skills and create a tool I wanted to use myself. While it didn't enjoy the same commercial success as Study Planner, I was particularly proud of its design and feel.</p>
+                <video class="project-video" src="pages/Mynd/mynd-demo.mp4" width="1277" height="660" controls playsinline preload="none" aria-label="Mynd mind-mapping demonstration"></video>
+                <p>I work best with structured notes, but many mind-mapping applications felt more suited to technical flowcharts. A graphic design seminar introduced me to the work of <a href="https://www.ted.com/talks/john_maeda_how_art_technology_and_design_inform_creative_leaders" target="_blank" rel="noopener noreferrer">John Maeda</a>, which inspired me to build my own.</p>
+                <figure class="article-image"><img src="pages/Mynd/initial%20design.png" width="1200" height="1000" alt="The initial design for Mynd's note-taking interface." loading="lazy" decoding="async"><figcaption>The initial design for the note-taking experience.</figcaption></figure>
+                <p>I used Win2D for high-performance custom graphics. Working with a new technology meant solving problems that didn't already have an answer on Stack Overflow.</p>
+                <p>At the time of the original write-up, Mynd had fewer than 1,000 downloads and a five-star average rating.</p>
+              </div>
+            </details>
+          </li>
 
-    </div>
+          <li class="timeline-entry" data-type="project" id="bristol-quidditch-club">
+            <time class="entry-date" datetime="2014"><span>2014</span></time>
+            <span class="entry-node" aria-hidden="true"></span>
+            <details class="entry-card" name="timeline">
+              <summary><span class="entry-type">Project</span><h2>Bristol Quidditch Club</h2><p class="entry-excerpt">Team identities, kits, graphics, and highlights for a club I helped found.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
+              <div class="entry-content prose">
+                <p>I helped found Bristol Quidditch Club in 2014 and quickly became its primary designer. With the exception of the original club crest, I designed everything from team identities and kits to social media graphics and merchandise.</p>
+                <figure class="article-image"><img src="pages/Bristol%20Quidditch%20Club/Club%20Graphics.png" width="1656" height="630" alt="A collection of Bristol Quidditch Club branding and graphics." loading="lazy" decoding="async"></figure>
+                <h3>Two teams, one club</h3>
+                <p>As the club grew, we split its existing branding into two distinct but connected identities. Red became the first team's colour, and yellow the second team's. The geometric logos could be printed in a single colour and matched patterns in the kits.</p>
+                <div class="carousel" role="region" aria-roledescription="carousel" aria-label="Bristol team identities and kits">
+                  <div class="carousel-track" id="bristol-kits" tabindex="0" aria-label="Team logos and kits">
+                    <figure class="carousel-slide"><img src="pages/Bristol%20Quidditch%20Club/Brizzlebears.png" alt="The geometric Brizzlebears team identity." loading="lazy" decoding="async"></figure>
+                    <figure class="carousel-slide"><img src="pages/Bristol%20Quidditch%20Club/Brizzlebees.png" alt="The geometric Brizzlebees team identity." loading="lazy" decoding="async"></figure>
+                    <figure class="carousel-slide"><img src="pages/Bristol%20Quidditch%20Club/Kits.png" alt="The two Bristol team kit designs." loading="lazy" decoding="async"></figure>
+                  </div>
+                  <div class="carousel-caption"><p>The Brizzlebears, Brizzlebees, and their kits.</p></div>
+                </div>
+                <p>I led the kit designs, including the shorts added later in the season. The second team's kit <a href="http://quidditchpost.blogspot.co.uk/2015/12/2015-best-uniform-contest-results.html" target="_blank" rel="noopener noreferrer">placed eighth in the world</a> in the Quidditch Post's 2015 uniform competition.</p>
+                <h3>Graphics and video</h3>
+                <p>I created rosters, results, awards announcements, and social graphics. Towards the end of my time in Bristol, I ran design sessions for newer members so that the club could keep producing consistent work.</p>
+                <div class="carousel" role="region" aria-roledescription="carousel" aria-label="Bristol club graphics">
+                  <div class="carousel-track" id="bristol-graphics" tabindex="0" aria-label="Club graphics and guidelines">
+                    <figure class="carousel-slide"><img src="pages/Bristol%20Quidditch%20Club/Guidelines.png" alt="Bristol Quidditch Club's graphic design guidelines." loading="lazy" decoding="async"></figure>
+                    <figure class="carousel-slide"><img src="pages/Bristol%20Quidditch%20Club/BAFTAs.png" alt="Club awards announcement artwork." loading="lazy" decoding="async"></figure>
+                    <figure class="carousel-slide"><img src="pages/Bristol%20Quidditch%20Club/Team%20UK.png" alt="Team UK announcement graphic." loading="lazy" decoding="async"></figure>
+                    <figure class="carousel-slide"><img src="pages/Bristol%20Quidditch%20Club/BQC%20Results.png" alt="Bristol Quidditch Club results graphic." loading="lazy" decoding="async"></figure>
+                    <figure class="carousel-slide"><img src="pages/Bristol%20Quidditch%20Club/Inclusive.png" alt="Club artwork promoting inclusion." loading="lazy" decoding="async"></figure>
+                    <figure class="carousel-slide"><img src="pages/Bristol%20Quidditch%20Club/Mixed%20Gender.png" alt="Club artwork about mixed-gender sport." loading="lazy" decoding="async"></figure>
+                    <figure class="carousel-slide"><img src="pages/Bristol%20Quidditch%20Club/Social.png" alt="Club artwork about its social community." loading="lazy" decoding="async"></figure>
+                    <figure class="carousel-slide"><img src="pages/Bristol%20Quidditch%20Club/Competitive.png" alt="Club artwork about competitive play." loading="lazy" decoding="async"></figure>
+                  </div>
+                  <div class="carousel-caption"><p>Guidelines, announcements, and community graphics.</p></div>
+                </div>
+                <p>I also edited club highlight reels, personal player highlights, and transfer videos.</p>
+                <p class="entry-links"><a href="https://www.youtube.com/watch?v=rIJON_EcVCE" target="_blank" rel="noopener noreferrer">Watch the first highlights video</a><a href="https://www.youtube.com/watch?v=RqLZGk5N8zo" target="_blank" rel="noopener noreferrer">Watch the second highlights video</a></p>
+              </div>
+            </details>
+          </li>
 
+          <li class="timeline-entry" data-type="project" id="study-planner">
+            <time class="entry-date" datetime="2012"><span>2012</span></time>
+            <span class="entry-node" aria-hidden="true"></span>
+            <details class="entry-card" name="timeline">
+              <summary><span class="entry-type">Project</span><h2>Study Planner</h2><p class="entry-excerpt">My first software project, which reached over 240,000 downloads.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
+              <div class="entry-content prose">
+                <p>I created Study Planner in 2012 as my first experience of software development. What began as a project for myself and a way to learn to code became an app with over 240,000 downloads on Windows and Windows Phone.</p>
+                <p>Windows Phone's distinctive interface had inspired me to download the developer tools. During my GCSE exam period, I worked through a 20-part web programming course for .NET developers, then set out to build a better way to manage timetables and homework.</p>
+                <div class="carousel" role="region" aria-roledescription="carousel" aria-label="Study Planner application and reception">
+                  <div class="carousel-track" id="study-planner-app" tabindex="0" aria-label="Study Planner screens and store features">
+                    <figure class="carousel-slide"><img src="pages/Study%20Planner/study%20planner.png" alt="The Study Planner application." loading="lazy" decoding="async"></figure>
+                    <figure class="carousel-slide"><img src="pages/Study%20Planner/featured.png" alt="Study Planner featured in the Windows Store." loading="lazy" decoding="async"></figure>
+                    <figure class="carousel-slide"><img src="pages/Study%20Planner/ranking.png" alt="Study Planner's Windows Store ranking." loading="lazy" decoding="async"></figure>
+                  </div>
+                  <div class="carousel-caption"><p>The application and its Windows Store reception.</p></div>
+                </div>
+                <p>Study Planner was featured repeatedly in the Windows Store, both in education and on the store's front page. It was also included in the <a href="http://www.nogginbox.co.uk/blog/top-ten-windows-8-apps" target="_blank" rel="noopener noreferrer">Creativ Bloq App Generator Competition's top ten</a>. At its peak, it was the UK's number-one paid non-game app in the Windows Store.</p>
+                <p>Alongside digital promotional material, I photographed an early version of the app.</p>
+                <div class="carousel" role="region" aria-roledescription="carousel" aria-label="Study Planner photographs">
+                  <div class="carousel-track" id="study-planner-photos" tabindex="0" aria-label="Study Planner photographs">
+                    <figure class="carousel-slide"><img src="pages/Study%20Planner/upcoming.JPG" width="3888" height="2592" alt="Upcoming lessons and homework on a Nokia phone beside textbooks." loading="lazy" decoding="async"></figure>
+                    <figure class="carousel-slide"><img src="pages/Study%20Planner/timetable.JPG" width="3888" height="2592" alt="A weekly timetable on a phone lying across an open textbook." loading="lazy" decoding="async"></figure>
+                    <figure class="carousel-slide"><img src="pages/Study%20Planner/subjects.JPG" alt="Study Planner's subjects screen." loading="lazy" decoding="async"></figure>
+                    <figure class="carousel-slide"><img src="pages/Study%20Planner/homework.JPG" alt="Study Planner's homework screen." loading="lazy" decoding="async"></figure>
+                    <figure class="carousel-slide"><img src="pages/Study%20Planner/exams.JPG" width="3888" height="2592" alt="An exam reminder in Study Planner." loading="lazy" decoding="async"></figure>
+                  </div>
+                  <div class="carousel-caption"><p>Photographs from the original launch promotion.</p></div>
+                </div>
+              </div>
+            </details>
+          </li>
+        </ol>
+        <p class="empty-state" hidden>No entries of this type yet.</p>
+      </section>
+    </main>
+
+    <aside class="minimap" aria-label="Timeline overview" hidden>
+      <p class="minimap-bound" id="minimap-newest" aria-hidden="true"></p>
+      <p class="visually-hidden" id="minimap-help">Drag to scrub through the timeline. Use arrow keys to move, Page Up or Page Down for larger steps, and Home or End to reach either end.</p>
+      <div class="minimap-track" role="slider" tabindex="0" aria-label="Timeline position" aria-describedby="minimap-help" aria-orientation="vertical" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="minimap-marks" aria-hidden="true"></div>
+        <div class="minimap-viewport" aria-hidden="true"></div>
+      </div>
+      <p class="minimap-bound" id="minimap-oldest" aria-hidden="true"></p>
+    </aside>
+
+    <template id="carousel-controls-template">
+      <div class="carousel-controls">
+        <span class="carousel-position" aria-live="polite" aria-atomic="true"><span class="visually-hidden">Image </span><span data-current-slide>01</span><span aria-hidden="true"> / </span><span class="visually-hidden"> of </span><span data-total-slides></span></span>
+        <button type="button" data-direction="-1" aria-label="Previous image" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m6-6-6 6 6 6"></path></svg></button>
+        <button type="button" data-direction="1" aria-label="Next image"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"></path></svg></button>
+      </div>
+    </template>
   </body>
 </html>
