@@ -11,8 +11,9 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
-    <link rel="stylesheet" href="site.css">
-    <script src="site.js" defer></script>
+    <!-- Bump both cache keys when changing styles or interactions. -->
+    <link rel="stylesheet" href="site.css?v=20261008-3">
+    <script src="site.js?v=20261008-3" defer></script>
   </head>
   <body id="top">
     <a class="skip-link" href="#content">Skip to content</a>
@@ -37,15 +38,19 @@
     <main id="content">
       <section class="timeline" aria-labelledby="timeline-title">
         <h1 class="visually-hidden" id="timeline-title">Timeline</h1>
-        <p class="visually-hidden" id="timeline-count" aria-live="polite" aria-atomic="true">21 entries</p>
+        <p class="visually-hidden" id="timeline-count" aria-live="polite" aria-atomic="true">20 entries</p>
         <ol class="timeline-list" id="timeline-list">
           <li class="timeline-entry" data-type="thought" data-pinned="now" id="cv">
             <time class="entry-date" datetime="2026-10"><span>Now</span></time>
             <span class="entry-node" aria-hidden="true"></span>
             <details class="entry-card" name="timeline">
-              <summary><span class="entry-type">Thought</span><h2>My latest CV</h2><p class="entry-excerpt">October 2026.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
+              <summary><span class="entry-type">Thought</span><h2>My CV</h2><span class="entry-toggle" aria-hidden="true"></span></summary>
               <div class="entry-content prose">
-                <p><a href="pages/About%20me/dom_ayre.pdf?v=2026-10" target="_blank" rel="noopener">Open my CV (PDF)</a></p>
+                <!-- Regenerate this preview and update both file cache keys when the CV changes. -->
+                <figure class="article-image cv-preview">
+                  <img src="media/dom-ayre-cv-oct-2026.png?v=18c034fad858" width="1786" height="2526" alt="Preview of my October 2026 CV. The original PDF is linked below." loading="lazy" decoding="async">
+                </figure>
+                <p><a href="pages/About%20me/dom_ayre.pdf?v=61c7b7cdfdac" target="_blank" rel="noopener">Open or download the PDF</a></p>
               </div>
             </details>
           </li>
@@ -58,17 +63,6 @@
               <div class="entry-content prose">
                 <p>In January 2026, I became a Senior Software Engineer in Azure Container Instances, taking on technical leadership of a team of six engineers and responsibility for several engineering workstreams.</p>
                 <p>My work covers regional buildout, zonal availability, and container infrastructure.</p>
-              </div>
-            </details>
-          </li>
-
-          <li class="timeline-entry" data-type="milestone" id="microsoft-promotion-2024">
-            <time class="entry-date" datetime="2024-08"><span>2024</span>Aug</time>
-            <span class="entry-node" aria-hidden="true"></span>
-            <details class="entry-card" name="timeline">
-              <summary><span class="entry-type">Milestone</span><h2>Promotion at Microsoft</h2><p class="entry-excerpt">Azure Confidential Computing.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
-              <div class="entry-content prose">
-                <p>I was promoted in August 2024 while working on confidential computing at Microsoft, including the Confidential Consortium Framework and confidential containers.</p>
               </div>
             </details>
           </li>
@@ -103,9 +97,9 @@
             <time class="entry-date" datetime="2020-04"><span>2020</span>Apr</time>
             <span class="entry-node" aria-hidden="true"></span>
             <details class="entry-card" name="timeline">
-              <summary><span class="entry-type">Milestone</span><h2>Promotion at Arm</h2><p class="entry-excerpt">GPU software, instrumentation, and visualisation.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
+              <summary><span class="entry-type">Milestone</span><h2>Promoted to Senior Software Engineer at Arm</h2><p class="entry-excerpt">GPU software, instrumentation, and visualisation.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
               <div class="entry-content prose">
-                <p>I was promoted again in April 2020 while working in Arm's GPU software team on Mali driver instrumentation, data modelling, and visualisation.</p>
+                <p>I was promoted from Software Engineer to Senior Software Engineer in April 2020, working in Arm's GPU software team on Mali driver instrumentation, data modelling, and visualisation.</p>
               </div>
             </details>
           </li>
@@ -114,9 +108,9 @@
             <time class="entry-date" datetime="2018-04"><span>2018</span>Apr</time>
             <span class="entry-node" aria-hidden="true"></span>
             <details class="entry-card" name="timeline">
-              <summary><span class="entry-type">Milestone</span><h2>Promotion at Arm</h2><p class="entry-excerpt">GPU software engineering.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
+              <summary><span class="entry-type">Milestone</span><h2>Promoted to Software Engineer at Arm</h2><p class="entry-excerpt">GPU software engineering.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
               <div class="entry-content prose">
-                <p>I was promoted in April 2018, after joining Arm as a graduate in September 2017.</p>
+                <p>I was promoted from Graduate Software Engineer to Software Engineer in April 2018, after joining Arm in September 2017.</p>
               </div>
             </details>
           </li>
@@ -208,7 +202,7 @@
             <time class="entry-date" datetime="2016-07"><span>2016</span>Jul</time>
             <span class="entry-node" aria-hidden="true"></span>
             <details class="entry-card" name="timeline">
-              <summary><span class="entry-type">Milestone</span><h2>Vulkan timeline visualisation at Arm</h2><p class="entry-excerpt">A summer internship, July–September 2016.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
+              <summary><span class="entry-type">Milestone</span><h2>Internship: Vulkan timeline visualisation at Arm</h2><p class="entry-excerpt">A summer internship, July–September 2016.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
               <div class="entry-content prose"><p>I instrumented and visualised the Vulkan timeline, gaining practical knowledge of the Vulkan API during a summer internship at Arm.</p></div>
             </details>
           </li>
@@ -238,7 +232,7 @@
             <time class="entry-date" datetime="2015-07"><span>2015</span>Jul</time>
             <span class="entry-node" aria-hidden="true"></span>
             <details class="entry-card" name="timeline">
-              <summary><span class="entry-type">Milestone</span><h2>Precompiled OpenCL headers at Arm</h2><p class="entry-excerpt">A summer internship, July–September 2015.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
+              <summary><span class="entry-type">Milestone</span><h2>Internship: Precompiled OpenCL headers at Arm</h2><p class="entry-excerpt">A summer internship, July–September 2015.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
               <div class="entry-content prose"><p>I added support for precompiling OpenCL headers with Clang, improving loading performance and maintainability.</p></div>
             </details>
           </li>
@@ -274,7 +268,7 @@
             <time class="entry-date" datetime="2014-07"><span>2014</span>Jul</time>
             <span class="entry-node" aria-hidden="true"></span>
             <details class="entry-card" name="timeline">
-              <summary><span class="entry-type">Milestone</span><h2>Compute shader research at Arm</h2><p class="entry-excerpt">A summer internship, July–September 2014.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
+              <summary><span class="entry-type">Milestone</span><h2>Internship: Compute shader research at Arm</h2><p class="entry-excerpt">A summer internship, July–September 2014.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
               <div class="entry-content prose"><p>I researched using compute shaders to render SVG paths during a summer internship at Arm.</p></div>
             </details>
           </li>

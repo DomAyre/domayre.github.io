@@ -1,5 +1,5 @@
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-const narrowViewport = window.matchMedia("(max-width: 768px)");
+const narrowViewport = window.matchMedia("(max-width: 1100px), (hover: none) and (pointer: coarse)");
 const header = document.querySelector(".site-header");
 const mainContent = document.querySelector("#content");
 mainContent.classList.add("has-scroll-fade");
@@ -252,6 +252,7 @@ function updateFilterButtons() {
 
 function applyFilters(animate = true) {
   stopAccordionScroll();
+  stopMinimapScrub();
   const motion = animate && !reducedMotion.matches;
   const previous = new Map();
   for (const entry of entries) {
@@ -296,6 +297,19 @@ entries.forEach((entry) => {
   const card = element.querySelector(".entry-card");
   const summary = card.querySelector("summary");
   const content = card.querySelector(".entry-content");
+  const repository = entry.type === "project" ? content.querySelector('a[href^="https://github.com/"]') : null;
+  if (repository) {
+    const title = summary.querySelector("h2");
+    const actions = document.createElement("span");
+    actions.className = "entry-actions";
+    const link = repository.cloneNode(false);
+    link.className = "project-github";
+    link.title = "View on GitHub";
+    link.setAttribute("aria-label", `View ${title.textContent} on GitHub`);
+    link.append(document.querySelector('.contact a[href^="https://github.com/"] svg').cloneNode(true));
+    actions.append(link, summary.querySelector(".entry-toggle"));
+    summary.append(actions);
+  }
   let expanded = card.open;
   let animation;
   card.removeAttribute("name");
@@ -340,8 +354,10 @@ entries.forEach((entry) => {
   };
 
   summary.addEventListener("click", (event) => {
+    if (event.target instanceof Element && event.target.closest("a")) return;
     event.preventDefault();
     stopAccordionScroll();
+    stopMinimapScrub();
     const opening = !expanded;
     const previous = expandedEntry;
     const anchorTop = summary.getBoundingClientRect().top;
@@ -400,33 +416,73 @@ filters.forEach((button) => {
 });
 document.querySelector(".timeline-filters").hidden = false;
 
-let dragging = false;
-function scrub(event) {
-  const bounds = mapTrack.getBoundingClientRect();
-  const ratio = clamp((event.clientY - bounds.top) / bounds.height, 0, 1);
-  const viewportCentre = (innerHeight + header.offsetHeight) / 2;
-  const target = geometry.top + ratio * geometry.height - viewportCentre;
-  window.scrollTo({ top: clamp(target, 0, geometry.maximumScroll), behavior: "instant" });
+let activeScrub;
+
+function preventScrubScroll(event) {
+  if (activeScrub && event.cancelable) event.preventDefault();
 }
+
+function stopMinimapScrub() {
+  if (!activeScrub) return;
+  const { pointerId } = activeScrub;
+  activeScrub = undefined;
+  window.removeEventListener("wheel", preventScrubScroll, true);
+  if (mapTrack.hasPointerCapture(pointerId)) mapTrack.releasePointerCapture(pointerId);
+}
+
+function moveMinimapScrub(event) {
+  if (!activeScrub || event.pointerId !== activeScrub.pointerId) return;
+  event.preventDefault();
+  const target = activeScrub.startScroll + (event.clientY - activeScrub.startY) * activeScrub.scale;
+  window.scrollTo({ top: clamp(target, 0, activeScrub.maximumScroll), behavior: "instant" });
+}
+
 mapTrack.addEventListener("pointerdown", (event) => {
-  if (event.button !== 0) return;
+  if (event.button !== 0 || !event.isPrimary || activeScrub) return;
+  measureMap();
+  if (!geometry || mapTrack.clientHeight === 0) return;
+  event.preventDefault();
   stopAccordionScroll();
-  dragging = true;
+  const bounds = mapTrack.getBoundingClientRect();
+  const viewport = mapViewport.getBoundingClientRect();
+  const grabbedViewport = event.clientX >= viewport.left && event.clientX <= viewport.right
+    && event.clientY >= viewport.top && event.clientY <= viewport.bottom;
+  const ratio = clamp((event.clientY - bounds.top) / bounds.height, 0, 1);
+  const target = geometry.top + ratio * geometry.height - (innerHeight + header.offsetHeight) / 2;
+  const startScroll = grabbedViewport ? scrollY : clamp(target, 0, geometry.maximumScroll);
+  // Keep drag coordinates fixed even if browser chrome changes the viewport mid-gesture.
+  activeScrub = {
+    pointerId: event.pointerId,
+    startY: event.clientY,
+    startScroll,
+    scale: geometry.height / bounds.height,
+    maximumScroll: geometry.maximumScroll,
+  };
   mapTrack.setPointerCapture(event.pointerId);
   mapTrack.focus({ preventScroll: true });
-  scrub(event);
+  window.addEventListener("wheel", preventScrubScroll, { passive: false, capture: true });
+  // Also cancel an in-flight scroll when grabbing the indicator without moving it.
+  window.scrollTo({ top: startScroll, behavior: "instant" });
 });
-mapTrack.addEventListener("pointermove", (event) => {
-  if (dragging) scrub(event);
+mapTrack.addEventListener("pointermove", moveMinimapScrub);
+mapTrack.addEventListener("pointerup", (event) => {
+  if (event.pointerId !== activeScrub?.pointerId) return;
+  moveMinimapScrub(event);
+  stopMinimapScrub();
 });
-mapTrack.addEventListener("pointerup", () => { dragging = false; });
-mapTrack.addEventListener("pointercancel", () => { dragging = false; });
-mapTrack.addEventListener("lostpointercapture", () => { dragging = false; });
+mapTrack.addEventListener("pointercancel", (event) => {
+  if (event.pointerId === activeScrub?.pointerId) stopMinimapScrub();
+});
+mapTrack.addEventListener("lostpointercapture", (event) => {
+  if (event.pointerId === activeScrub?.pointerId) stopMinimapScrub();
+});
+mapTrack.addEventListener("touchmove", preventScrubScroll, { passive: false });
 mapTrack.addEventListener("keydown", (event) => {
   const position = Number(mapTrack.getAttribute("aria-valuenow"));
   const destinations = { ArrowUp: position - 5, ArrowLeft: position - 5, ArrowDown: position + 5, ArrowRight: position + 5, PageUp: position - 20, PageDown: position + 20, Home: 0, End: 100 };
   if (!Object.hasOwn(destinations, event.key)) return;
   event.preventDefault();
+  stopMinimapScrub();
   const ratio = clamp(destinations[event.key], 0, 100) / 100;
   window.scrollTo({
     top: geometry.minimumScroll + ratio * (geometry.maximumScroll - geometry.minimumScroll),
@@ -439,10 +495,15 @@ window.addEventListener("scroll", () => {
   scrollFrame = requestAnimationFrame(updateMapPosition);
 }, { passive: true });
 window.addEventListener("resize", scheduleMapLayout);
+window.addEventListener("blur", stopMinimapScrub);
 window.addEventListener("wheel", stopAccordionScroll, { passive: true });
 window.addEventListener("touchstart", stopAccordionScroll, { passive: true });
 window.addEventListener("keydown", stopAccordionScroll);
 new ResizeObserver(scheduleMapLayout).observe(timeline);
+narrowViewport.addEventListener("change", () => {
+  stopMinimapScrub();
+  scheduleMapLayout();
+});
 reducedMotion.addEventListener("change", () => {
   if (reducedMotion.matches) {
     applyFilters(false);

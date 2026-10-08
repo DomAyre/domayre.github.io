@@ -12,6 +12,8 @@
   --subtle-fill: #f4f4f4;
   --selection-background: #e2e2e2;
   --map-overlay: rgb(37 37 37 / 2%);
+  --accent: #3d817b;
+  --accent-glow: rgb(61 129 123 / 10%);
   --page-gutter: clamp(24px, 5vw, 80px);
   --header-height: 96px;
   --content-width: 800px;
@@ -44,6 +46,8 @@
     --subtle-fill: #292929;
     --selection-background: #444;
     --map-overlay: rgb(236 236 236 / 4%);
+    --accent: #65a69b;
+    --accent-glow: rgb(101 166 155 / 14%);
   }
 }
 
@@ -93,9 +97,9 @@ main.has-scroll-fade {
 }
 .contact { grid-column: 3; justify-self: end; display: flex; align-items: center; gap: 10px; }
 .contact a { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 2px; color: var(--muted); }
-.contact a:hover { color: var(--text); }
-.contact svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; transition: transform 240ms var(--ease); }
-.contact a:hover svg { transform: translateY(-2px); }
+.contact a:focus-visible, .project-github:focus-visible { color: var(--accent); }
+.contact svg, .project-github svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; transition: transform 240ms var(--ease); }
+.contact a:hover svg, .project-github:hover svg { transform: translateY(-2px); }
 .timeline-list { position: relative; list-style: none; margin: 0; padding: 0; overflow-anchor: none; }
 .timeline-entry { position: relative; padding-left: var(--card-start); }
 .is-filtering { overflow: clip; overflow-clip-margin: 8px; }
@@ -108,16 +112,22 @@ main.has-scroll-fade {
 .entry-node { position: absolute; left: calc(var(--rail-x) - 3px); top: 28px; width: 7px; height: 7px; background: var(--background); border: 1px solid var(--muted); border-radius: 50%; }
 [data-type="project"] > .entry-node { border-radius: 1px; background: var(--muted); border-color: var(--muted); }
 [data-type="milestone"] > .entry-node { background: var(--text); border-color: var(--text); }
-.entry-card { overflow: hidden; border: 1px solid var(--rule); border-radius: 2px; background: var(--surface); transition: border-color 200ms ease, background 200ms ease; }
-.entry-card:hover { border-color: var(--strong-line); background: var(--surface-hover); }
-.entry-card[open] { border-color: var(--strong-line); }
+.entry-card { overflow: hidden; border: 1px solid var(--rule); border-radius: 2px; background: var(--surface); transition: border-color 200ms ease, background 200ms ease, box-shadow 240ms ease; }
+.entry-card[open] { border-color: var(--accent); box-shadow: inset 0 0 16px var(--accent-glow); }
+@media (hover: hover) {
+  .entry-card:hover { border-color: var(--accent); background: var(--surface-hover); box-shadow: inset 0 0 16px var(--accent-glow); }
+  .contact a:hover, .project-github:hover { color: var(--accent); }
+}
 .entry-card summary { position: relative; list-style: none; padding: 19px 52px 21px 24px; cursor: pointer; }
 .entry-card summary::-webkit-details-marker { display: none; }
 .entry-card summary:focus-visible { outline-offset: -4px; }
 .entry-type { display: block; font-size: 8px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
 .entry-card h2 { font-size: 18px; line-height: 1.5; font-weight: 400; margin-bottom: 7px; }
+.entry-actions { position: absolute; top: 11px; right: 23px; display: flex; align-items: center; gap: 10px; }
+.project-github { display: grid; place-items: center; flex: 0 0 36px; width: 36px; height: 36px; color: var(--muted); border-radius: 2px; }
 .entry-excerpt { font-size: 11px; line-height: 1.7; color: var(--muted); }
 .entry-toggle { position: absolute; right: 23px; top: 24px; width: 10px; height: 10px; }
+.entry-actions .entry-toggle { position: relative; top: auto; right: auto; flex: 0 0 10px; }
 .entry-toggle::before, .entry-toggle::after { content: ""; position: absolute; top: 4px; left: 0; height: 1px; width: 9px; background: var(--muted); transition: transform 280ms var(--ease), opacity 180ms ease; }
 .entry-toggle::after { transform: rotate(90deg); }
 .entry-card.is-expanded .entry-toggle::after, .entry-card[open]:not(.is-enhanced) .entry-toggle::after { transform: rotate(0); opacity: 0; }
@@ -158,9 +168,11 @@ blockquote { margin: 22px 0; padding: 0 0 0 18px; border-left: 1px solid var(--s
 
 .minimap { position: fixed; z-index: 5; top: 52%; right: var(--page-gutter); width: 92px; transform: translateY(-50%); color: var(--muted); user-select: none; -webkit-user-select: none; }
 .minimap-track { position: relative; height: clamp(220px, 43vh, 380px); cursor: ns-resize; touch-action: none; }
+.minimap-track:focus-visible { outline: none; }
 .minimap-track::before { content: ""; position: absolute; left: 51px; top: 0; bottom: 0; width: 1px; background: var(--rule); }
-.minimap-viewport { position: absolute; left: 38px; right: 0; top: 0; min-height: 12px; border: 1px solid var(--strong-line); border-radius: 2px; background: var(--map-overlay); pointer-events: none; transition: border-color 180ms ease; }
-.minimap-track:hover .minimap-viewport, .minimap-track:focus-visible .minimap-viewport { border-color: var(--muted); }
+.minimap-viewport { position: absolute; left: 38px; right: 0; top: 0; min-height: 12px; border: 1px solid var(--strong-line); border-radius: 2px; background: var(--map-overlay); pointer-events: none; transition: border-color 180ms ease, box-shadow 180ms ease; }
+.minimap-track:hover .minimap-viewport { border-color: var(--muted); }
+.minimap-track:focus-visible .minimap-viewport { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
 .mini-entry { position: absolute; left: 47px; width: 27px; min-height: 2px; background: var(--line); border-radius: 1px; pointer-events: none; transition: background 180ms ease; }
 .mini-entry[data-type="thought"] { width: 19px; }
 .mini-entry[data-type="milestone"] { width: 11px; background: var(--muted); }
@@ -179,14 +191,10 @@ blockquote { margin: 22px 0; padding: 0 0 0 18px; border-left: 1px solid var(--s
 }
 @media (max-width: 1000px) {
   :root { --rail-x: 66px; --card-start: 90px; }
-  main { width: calc(100% - var(--page-gutter) - 115px); margin-left: var(--page-gutter); }
   .entry-date { width: 48px; }
-  .minimap { right: 18px; width: 76px; }
-  .minimap-viewport { right: 0; }
-  .mini-entry { max-width: 23px; }
 }
-@media (max-width: 768px) {
-  main { width: calc(100% - var(--page-gutter) * 2); }
+@media (max-width: 1100px), (hover: none) and (pointer: coarse) {
+  main { width: min(var(--content-width), calc(100% - var(--page-gutter) * 2)); }
   .minimap { display: none; }
 }
 @media (max-width: 650px) {
@@ -204,6 +212,7 @@ blockquote { margin: 22px 0; padding: 0 0 0 18px; border-left: 1px solid var(--s
   .timeline-entry.is-first::before { top: 50px; }
   .timeline-entry.is-last::before { height: 50px; }
   .entry-card summary { padding: 17px 34px 18px 16px; }
+  .entry-actions { top: 8px; right: 15px; }
   .entry-card h2 { font-size: 16px; line-height: 1.5; }
   .entry-excerpt { font-size: 10px; }
   .entry-type { font-size: 7px; }
