@@ -37,17 +37,50 @@
     <main id="content">
       <section class="timeline" aria-labelledby="timeline-title">
         <h1 class="visually-hidden" id="timeline-title">Timeline</h1>
-        <p class="visually-hidden" id="timeline-count" aria-live="polite" aria-atomic="true">16 entries</p>
+        <p class="visually-hidden" id="timeline-count" aria-live="polite" aria-atomic="true">21 entries</p>
         <ol class="timeline-list" id="timeline-list">
+          <li class="timeline-entry" data-type="thought" data-pinned="now" id="cv">
+            <time class="entry-date" datetime="2026-10"><span>Now</span></time>
+            <span class="entry-node" aria-hidden="true"></span>
+            <details class="entry-card" name="timeline">
+              <summary><span class="entry-type">Thought</span><h2>My latest CV</h2><p class="entry-excerpt">October 2026.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
+              <div class="entry-content prose">
+                <p><a href="pages/About%20me/dom_ayre.pdf?v=2026-10" target="_blank" rel="noopener">Open my CV (PDF)</a></p>
+              </div>
+            </details>
+          </li>
+
+          <li class="timeline-entry" data-type="milestone" id="microsoft-senior">
+            <time class="entry-date" datetime="2026-01"><span>2026</span>Jan</time>
+            <span class="entry-node" aria-hidden="true"></span>
+            <details class="entry-card" name="timeline">
+              <summary><span class="entry-type">Milestone</span><h2>Senior Software Engineer at Microsoft</h2><p class="entry-excerpt">Technical leadership in Azure Container Instances.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
+              <div class="entry-content prose">
+                <p>In January 2026, I became a Senior Software Engineer in Azure Container Instances, taking on technical leadership of a team of six engineers and responsibility for several engineering workstreams.</p>
+                <p>My work covers regional buildout, zonal availability, and container infrastructure.</p>
+              </div>
+            </details>
+          </li>
+
+          <li class="timeline-entry" data-type="milestone" id="microsoft-promotion-2024">
+            <time class="entry-date" datetime="2024-08"><span>2024</span>Aug</time>
+            <span class="entry-node" aria-hidden="true"></span>
+            <details class="entry-card" name="timeline">
+              <summary><span class="entry-type">Milestone</span><h2>Promotion at Microsoft</h2><p class="entry-excerpt">Azure Confidential Computing.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
+              <div class="entry-content prose">
+                <p>I was promoted in August 2024 while working on confidential computing at Microsoft, including the Confidential Consortium Framework and confidential containers.</p>
+              </div>
+            </details>
+          </li>
+
           <li class="timeline-entry" data-type="milestone" id="microsoft">
-            <time class="entry-date" datetime="2022-07"><span>2022</span>Jul</time>
+            <time class="entry-date" datetime="2022-08"><span>2022</span>Aug</time>
             <span class="entry-node" aria-hidden="true"></span>
             <details class="entry-card" name="timeline">
               <summary><span class="entry-type">Milestone</span><h2>Joined Microsoft</h2><p class="entry-excerpt">Confidential computing, Azure, and the Confidential Consortium Framework.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
               <div class="entry-content prose">
-                <p>I joined Microsoft as a Software Engineer in July 2022. I worked on the Confidential Consortium Framework (CCF), helping to add support for AMD SNP and creating CI testing workflows in GitHub and Azure DevOps.</p>
+                <p>I joined Microsoft as a Research Software Engineer in August 2022. I worked on the Confidential Consortium Framework (CCF), helping to add support for AMD SNP and creating CI testing workflows in GitHub and Azure DevOps.</p>
                 <p>I later moved into Azure Core to work on Confidential Azure Container Instances, including adding Azure support to Google's Privacy Sandbox.</p>
-                <p><a href="pages/About%20me/dom_ayre.pdf" target="_blank" rel="noopener">View the original CV (PDF)</a></p>
               </div>
             </details>
           </li>
@@ -66,13 +99,35 @@
             </details>
           </li>
 
+          <li class="timeline-entry" data-type="milestone" id="arm-promotion-2020">
+            <time class="entry-date" datetime="2020-04"><span>2020</span>Apr</time>
+            <span class="entry-node" aria-hidden="true"></span>
+            <details class="entry-card" name="timeline">
+              <summary><span class="entry-type">Milestone</span><h2>Promotion at Arm</h2><p class="entry-excerpt">GPU software, instrumentation, and visualisation.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
+              <div class="entry-content prose">
+                <p>I was promoted again in April 2020 while working in Arm's GPU software team on Mali driver instrumentation, data modelling, and visualisation.</p>
+              </div>
+            </details>
+          </li>
+
+          <li class="timeline-entry" data-type="milestone" id="arm-promotion-2018">
+            <time class="entry-date" datetime="2018-04"><span>2018</span>Apr</time>
+            <span class="entry-node" aria-hidden="true"></span>
+            <details class="entry-card" name="timeline">
+              <summary><span class="entry-type">Milestone</span><h2>Promotion at Arm</h2><p class="entry-excerpt">GPU software engineering.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
+              <div class="entry-content prose">
+                <p>I was promoted in April 2018, after joining Arm as a graduate in September 2017.</p>
+              </div>
+            </details>
+          </li>
+
           <li class="timeline-entry" data-type="milestone" id="arm">
             <time class="entry-date" datetime="2017-09"><span>2017</span>Sep</time>
             <span class="entry-node" aria-hidden="true"></span>
             <details class="entry-card" name="timeline">
               <summary><span class="entry-type">Milestone</span><h2>Joined Arm's GPU software team</h2><p class="entry-excerpt">Mali instrumentation, data modelling, and visualisation.</p><span class="entry-toggle" aria-hidden="true"></span></summary>
               <div class="entry-content prose">
-                <p>I joined Arm as a graduate in September 2017 and worked there until July 2022, with promotions in April 2018 and April 2020.</p>
+                <p>I joined Arm as a graduate in September 2017 and worked there until August 2022, with promotions in April 2018 and April 2020.</p>
                 <p>I worked on instrumenting the Mali GPU driver and owned our visualisation tool, written with D3 and Node.js. That included requirements gathering, design work, and a major design overhaul.</p>
                 <p>I also helped architect our Python data modelling library and acted as the team's Scrum Master, driving process improvements.</p>
               </div>

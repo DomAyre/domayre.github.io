@@ -185,13 +185,16 @@ blockquote { margin: 22px 0; padding: 0 0 0 18px; border-left: 1px solid var(--s
   .minimap-viewport { right: 0; }
   .mini-entry { max-width: 23px; }
 }
+@media (max-width: 768px) {
+  main { width: calc(100% - var(--page-gutter) * 2); }
+  .minimap { display: none; }
+}
 @media (max-width: 650px) {
   :root { --header-height: 112px; --rail-x: 8px; --card-start: 27px; }
   .site-header { grid-template-columns: 1fr auto; grid-template-rows: auto auto; align-content: center; gap: 7px 12px; padding-top: 8px; padding-bottom: 8px; }
   .site-name { grid-column: 1; grid-row: 1; font-size: 18px; letter-spacing: 0; }
   .timeline-filters { grid-column: 1 / -1; grid-row: 2; justify-self: center; gap: 12px; }
   .timeline-filters button { font-size: 9px; padding: 7px 9px; letter-spacing: .08em; }
-  main { width: calc(100% - var(--page-gutter) - 57px); }
   main { padding-top: 152px; }
   .contact { grid-column: 2; grid-row: 1; gap: 7px; }
   .contact a { width: 32px; height: 32px; }
@@ -212,14 +215,6 @@ blockquote { margin: 22px 0; padding: 0 0 0 18px; border-left: 1px solid var(--s
   .carousel-caption > p { flex: 1 1 100%; font-size: 8px; }
   .carousel-controls { margin-left: auto; }
   .carousel-position { font-size: 9px; }
-  .minimap { right: 5px; width: 38px; top: 55%; }
-  .mini-year { display: none; }
-  .minimap-track { height: clamp(180px, 39vh, 300px); }
-  .minimap-track::before { left: 13px; }
-  .mini-entry { left: 9px; }
-  .mini-gap { left: 8px; }
-  .minimap-viewport { left: 3px; right: 2px; }
-  .minimap-bound { display: block; font-size: 8px; text-align: center; margin: 11px 0; }
 }
 @media (prefers-reduced-motion: reduce) {
   :root { scroll-behavior: auto; }

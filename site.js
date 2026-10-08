@@ -1,4 +1,5 @@
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const narrowViewport = window.matchMedia("(max-width: 768px)");
 const header = document.querySelector(".site-header");
 const mainContent = document.querySelector("#content");
 mainContent.classList.add("has-scroll-fade");
@@ -15,8 +16,8 @@ const entries = Array.from(timeline.querySelectorAll(".timeline-entry"), (elemen
   const fullDate = sourceDate.length === 4 ? `${sourceDate}-01-01` : sourceDate.length === 7 ? `${sourceDate}-01` : sourceDate;
   const date = new Date(`${fullDate}T00:00:00Z`);
   if (Number.isNaN(date.getTime())) throw new Error(`Invalid timeline date: ${element.id}`);
-  return { element, date, yearOnly: sourceDate.length === 4, type: element.dataset.type };
-}).sort((a, b) => b.date - a.date);
+  return { element, date, pinned: element.dataset.pinned === "now", yearOnly: sourceDate.length === 4, type: element.dataset.type };
+}).sort((a, b) => Number(b.pinned) - Number(a.pinned) || b.date - a.date);
 
 const DAY = 86_400_000;
 const COMPRESSED_GAP_DAYS = 270;
@@ -31,9 +32,14 @@ let clearAllFiltersTimer;
 let expandedEntry;
 let accordionScrollFrame;
 const filterAnimations = new Set();
+const cardAnimations = new Set();
 
 function stopAccordionScroll() {
   cancelAnimationFrame(accordionScrollFrame);
+}
+
+function releaseAccordionSpace() {
+  if (cardAnimations.size === 0) mainContent.style.removeProperty("min-height");
 }
 
 function clamp(value, min, max) {
@@ -100,6 +106,11 @@ function describeGap(newer, older) {
   ].filter(Boolean).join(", ");
 }
 
+function describeEntryDate(entry, yearOnly = false) {
+  if (entry.pinned) return "Now";
+  return yearOnly || entry.yearOnly ? String(entry.date.getUTCFullYear()) : dateFormat.format(entry.date);
+}
+
 function renderGaps() {
   entries.forEach(({ element }) => element.classList.remove("is-first", "is-last"));
   gaps = [];
@@ -116,6 +127,10 @@ function renderGaps() {
     entry.element.classList.toggle("is-last", index === visibleEntries.length - 1);
     const next = visibleEntries[index + 1];
     if (!next) return;
+    if (entry.pinned) {
+      entry.gapHeight = 28;
+      return;
+    }
     const days = (entry.date - next.date) / DAY;
     if (days > COMPRESSED_GAP_DAYS) {
       gap.classList.add("compressed");
@@ -147,7 +162,7 @@ function renderMap() {
     mark.className = "mini-entry";
     mark.dataset.type = entry.type;
     mapMarks.append(mark);
-    const year = entry.date.getUTCFullYear();
+    const year = describeEntryDate(entry, true);
     let label;
     if (!years.has(year)) {
       label = document.createElement("span");
@@ -165,14 +180,14 @@ function renderMap() {
   });
   minimap.hidden = visibleEntries.length === 0;
   if (visibleEntries.length) {
-    document.querySelector("#minimap-newest").textContent = visibleEntries[0].date.getUTCFullYear();
-    document.querySelector("#minimap-oldest").textContent = visibleEntries.at(-1).date.getUTCFullYear();
+    document.querySelector("#minimap-newest").textContent = describeEntryDate(visibleEntries[0], true);
+    document.querySelector("#minimap-oldest").textContent = describeEntryDate(visibleEntries.at(-1), true);
   }
   measureMap();
 }
 
 function measureMap() {
-  if (minimap.hidden) return;
+  if (minimap.hidden || narrowViewport.matches) return;
   const bounds = timeline.getBoundingClientRect();
   const lastEntry = visibleEntries.at(-1).element;
   const height = Math.max(1, lastEntry.offsetTop + lastEntry.offsetHeight);
@@ -211,7 +226,7 @@ function scheduleMapLayout() {
 
 function updateMapPosition() {
   mainContent.style.setProperty("--content-scroll", `${Math.max(0, -mainContent.getBoundingClientRect().top)}px`);
-  if (!geometry || minimap.hidden) return;
+  if (!geometry || minimap.hidden || narrowViewport.matches) return;
   const { top, height, mapHeight, minimumScroll, maximumScroll } = geometry;
   const visibleTop = clamp((scrollY + header.offsetHeight - top) / height, 0, 1);
   const visibleBottom = clamp((scrollY + innerHeight - top) / height, 0, 1);
@@ -227,7 +242,7 @@ function updateMapPosition() {
   }
   if (progress >= .999) current = visibleEntries.at(-1);
   marks.forEach(({ entry, mark }) => mark.classList.toggle("is-current", entry === current));
-  const dateLabel = current.yearOnly ? current.date.getUTCFullYear() : dateFormat.format(current.date);
+  const dateLabel = describeEntryDate(current);
   mapTrack.setAttribute("aria-valuetext", `${dateLabel} - ${current.type}`);
 }
 
@@ -288,19 +303,23 @@ entries.forEach((entry) => {
   content.inert = !expanded;
   summary.setAttribute("aria-expanded", String(expanded));
 
-  entry.setExpanded = (value) => {
+  entry.setExpanded = (value, animate = true) => {
     if (expanded === value) return;
     expanded = value;
     if (!expanded) content.querySelectorAll("video").forEach((video) => video.pause());
     const startHeight = card.getBoundingClientRect().height;
-    animation?.cancel();
+    if (animation) {
+      cardAnimations.delete(animation);
+      animation.cancel();
+      animation = undefined;
+    }
     card.open = true;
     card.classList.toggle("is-expanded", expanded);
     content.inert = !expanded;
     summary.setAttribute("aria-expanded", String(expanded));
     const border = parseFloat(getComputedStyle(card).borderTopWidth) * 2;
     const endHeight = expanded ? card.getBoundingClientRect().height : summary.getBoundingClientRect().height + border;
-    if (reducedMotion.matches || element.hidden || element.inert) {
+    if (!animate || reducedMotion.matches || element.hidden || element.inert) {
       card.open = expanded;
       scheduleMapLayout();
       return;
@@ -309,9 +328,13 @@ entries.forEach((entry) => {
       duration: 300,
       easing: "cubic-bezier(.22, 1, .36, 1)",
     });
-    animation.onfinish = () => {
+    const currentAnimation = animation;
+    cardAnimations.add(currentAnimation);
+    currentAnimation.onfinish = () => {
       card.open = expanded;
-      animation = undefined;
+      cardAnimations.delete(currentAnimation);
+      if (animation === currentAnimation) animation = undefined;
+      releaseAccordionSpace();
       scheduleMapLayout();
     };
   };
@@ -322,12 +345,23 @@ entries.forEach((entry) => {
     const opening = !expanded;
     const previous = expandedEntry;
     const anchorTop = summary.getBoundingClientRect().top;
-    const keepPosition = opening && previous && !previous.element.inert
+    const keepMobilePosition = narrowViewport.matches && opening;
+    const keepPosition = !narrowViewport.matches && opening && previous && !previous.element.inert
       && previous.element.getBoundingClientRect().top < element.getBoundingClientRect().top && scrollY > 0;
-    if (opening && previous && previous !== entry) previous.setExpanded(false);
+    if (keepMobilePosition) {
+      // Reserve the scroll range while swapping cards so Safari cannot clamp it mid-layout.
+      mainContent.style.minHeight = `${mainContent.getBoundingClientRect().height}px`;
+      if (filterAnimations.size) applyFilters(false);
+    }
+    if (opening && previous && previous !== entry) previous.setExpanded(false, !keepMobilePosition);
     entry.setExpanded(opening);
     expandedEntry = opening ? entry : undefined;
 
+    if (keepMobilePosition) {
+      const delta = summary.getBoundingClientRect().top - anchorTop;
+      if (Math.abs(delta) > .5) window.scrollBy({ top: delta, behavior: "instant" });
+    }
+    releaseAccordionSpace();
     if (keepPosition) {
       const anchor = () => {
         const delta = summary.getBoundingClientRect().top - anchorTop;
